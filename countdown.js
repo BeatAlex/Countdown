@@ -14,7 +14,7 @@ var countdown = document.getElementById("countdown"); // Where countdown will up
 //Times
 var timezone = "GMT+0000"; //What timezone
 var time_to_end = "16:00:00 " + timezone; //Time in day you want to count down to
-var count_to = new Date(time_now.getDate() + " " now.getMonth() + " " now.getFullYear() + " " + time_to_end) //The full day and time in a variable
+var count_to = new Date(time_now.getDate() + " " + time_now.getMonth() + " " + time_now.getFullYear() + " " + time_to_end); //The full day and time in a variable
 
 //Holiday Variable
 holiday_start_date = new Date("12 22 2015"); //mm dd yyyy
@@ -57,6 +57,6 @@ function countdown() {
         }
 
     }, 1000)
-}
+};
 
 countdown();
