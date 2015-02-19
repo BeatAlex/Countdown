@@ -10,12 +10,16 @@ var countdown = function() {
 
     //Elements
     var appender = document.getElementById("appender"); //Where text will append to
-    console.log(appender + "\n\r" + document.getElementById("appender"));
     var countdown = document.createElement("span"); // Where countdown will update
 
-    //Times
+    //Messages
+    var holiday_message = "We'll be back on"; // no need to leave a space at the end!
+    var normal_message_before = "You have"; //before message -- don't leave a space
+    var normal_message_after = " left."; //after message -- don't leave a Times
+
+    //space
     var timezone = "GMT+0000"; //What timezone
-    var time_to_end = "16:00:00 " + timezone; //Time in day you want to count down to
+    var time_to_end = "17:00:00 " + timezone; //Time in day you want to count down to
     var count_to = new Date(time_now.getMonth() + " " + time_now.getDate() + ", " + time_now.getFullYear() + " " + time_to_end); //The full day and time in a variable
 
     //Holiday Variable
@@ -25,7 +29,6 @@ var countdown = function() {
     /***************************************
     *****DONT TOUCH ANYTHING UNDER HERE*****
     ***************************************/
-
     //Create the countdown span
     appender.parentNode.insertBefore(countdown, appender.nextSibling);
     countdown.id = "countdown";
@@ -47,20 +50,14 @@ var countdown = function() {
             seconds_left = (mins_left - m_mins_left)*60,
             m_seconds_left = Math.floor(seconds_left);
 
-        if (time_now >= holiday_start_date && time_now <= holiday_end_date) {
-            text = "<i class='fa fa-clock-o dark-green'></i> We'll be back " + holiday_end_date;
-        } else {
-            text = "<i class='fa fa-clock-o dark-green'></i> Order within <span class='dark-green'>" + m_hours_left + "h : " + m_mins_left + "m : " + m_seconds_left + "s</span><br />for next working day delivery.";
-        }
+            text = (time_now >= holiday_start_date && time_now <= holiday_end_date) ? holiday_message + holiday_end_date : normal_message_before + " " + m_hours_left + "h : " + m_mins_left + "m : " + m_seconds_left + "s" + " " + normal_message_after;
 
-        //If it's reached the time
-        if (m_days_left == "-1") {
-            countdown.style.display = "none";
-        } else {
-            countdown.innerHTML = text;
-        }
+        //If it's reached the time hide it
+        (m_days_left == "-1") ? countdown.style.display = "none" : countdown.innerHTML = text;
 
     }, 1000);
 };
 
-countdown();
+window.onload = function() {
+    countdown();
+}
