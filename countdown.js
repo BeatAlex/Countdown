@@ -16,11 +16,13 @@ var countdown = function() {
     var holiday_message = "We'll be back on"; // no need to leave a space at the end!
     var normal_message_before = "You have"; //before message -- don't leave a space
     var normal_message_after = " left."; //after message -- don't leave a Times
+    var finished_message = "You have run out of time!";
 
-    //space
+    //Hours time
     var timezone = "GMT+0000"; //What timezone
-    var time_to_end = "17:00:00 " + timezone; //Time in day you want to count down to
-    var count_to = new Date(time_now.getMonth() + " " + time_now.getDate() + ", " + time_now.getFullYear() + " " + time_to_end); //The full day and time in a variable
+    var time_to_start = "08:30:00"; //When do you want to start the timer?
+    var time_to_end = "16:00:00 " + timezone; //Time in day you want to count down to // USES 24 HOUR!
+    var count_to = new Date(time_now.getMonth()+ 1 + " " + time_now.getDate() + ", " + time_now.getFullYear() + " " + time_to_end); //The full day and time in a variable
 
     //Holiday Variable
     holiday_start_date = new Date("12 22 2015"); //mm dd yyyy
@@ -38,8 +40,9 @@ var countdown = function() {
         return; //End it there, it's the weekend!
     }
 
-    window.setInterval(function() {
+    var timer = setInterval(function() {
         //Variables need to be calculated each second
+        var current_time = new Date(time_now.getMonth()+1 + " " + time_now.getDate() + ", " + time_now.getFullYear() + " " + time_now.getHours()+":"+time_now.getMinutes()+":00");
         var time_left = count_to.getTime() - new Date().getTime(),
             days_left = time_left / ms_per_day,
             m_days_left = Math.floor(days_left),
@@ -52,9 +55,14 @@ var countdown = function() {
 
             text = (time_now >= holiday_start_date && time_now <= holiday_end_date) ? holiday_message + holiday_end_date : normal_message_before + " " + m_hours_left + "h : " + m_mins_left + "m : " + m_seconds_left + "s" + " " + normal_message_after;
 
-        //If it's reached the time hide it
-        (m_days_left == "-1") ? countdown.style.display = "none" : countdown.innerHTML = text;
-
+        //If it's reached the time, hide it
+        console.log("\n"+current_time + "\n" + count_to);
+        if (current_time >= count_to ) {
+            countdown.innerHTML = finished_message;
+            clearInterval(timer);
+        } else {
+            countdown.innerHTML = text;
+        }
     }, 1000);
 };
 
