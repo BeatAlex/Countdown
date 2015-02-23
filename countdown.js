@@ -5,7 +5,7 @@ window.onload = function() {
         //Set Static Variables
         var time_now = new Date();
 
-        (time_now.getDay() == 5 || time_now.getDay() == 6) ? return : ""; //End it there, it's the weekend!
+        if(time_now.getDay() == 5 || time_now.getDay() == 6){return;} //End it there, it's the weekend!
 
         var ms_per_day = 24*60*60*1000,
             text = "",
@@ -63,7 +63,16 @@ window.onload = function() {
                 text = (current_time >= holiday_start_date && current_time <= holiday_end_date) ? holiday_message + holiday_end_date : normal_message_before + " " + m_hours_left + "h : " + m_mins_left + "m : " + m_seconds_left + "s" + " " + normal_message_after;
 
             //If it's reached the time, hide it
-            (current_time >= count_to) ? countdown.innerHTML = finished_message + clearInterval(timer) : countdown.innerHTML = text;
+            if (current_time >= count_to ){
+                if (finished_message == ""){
+                    countdown.parentNode.removeChild(countdown);
+                } else {
+                    countdown.innerHTML = finished_message;
+                }
+                clearInterval(timer);
+            } else {
+                countdown.innerHTML = text;
+            }
 
         }, 1000);
     };
