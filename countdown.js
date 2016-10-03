@@ -3,27 +3,27 @@ window.onload = function() {
     function countdown() {
 
         //Set Static Variables
-        var time_now = new Date();
+        var timeNow = new Date();
 
-        if(time_now.getDay() == 5 || time_now.getDay() == 6){return;} //End it there, it's the weekend!
+        if(timeNow.getDay() == 5 || timeNow.getDay() == 6){return;} //End it there, it's the weekend!
 
-        var ms_per_day = 24*60*60*1000,
+        var msPerDay = 24*60*60*1000,
             text = "",
-            next_year = new Date().getFullYear() + 1;
+            nextYear = new Date().getFullYear() + 1;
 
         // User defined variables
 
         //Elements
         var appender = document.getElementById("appender"), //Where text will append to,
             countdown = document.createElement("span"), // Where countdown will update,
-            countdown_id = "countdown",
-            countdown_classname = "";
+            countdownId = "countdown",
+            countdownClassName = "";
 
         //Messages
-        var holiday_message = "We'll be back on", // no need to leave a space at the end!
-            normal_message_before = "Order within", //before message -- don't leave a space
-            normal_message_after = "<br>for next working day delivery.", //after message -- don't leave a space
-            finished_message = "";
+        var holidayMessage = "We'll be back on", // no need to leave a space at the end!
+            normalMessageBefore = "Order within", //before message -- don't leave a space
+            normalMessageAfter = "<br>for next working day delivery.", //after message -- don't leave a space
+            finishedMessage = "";
 
         //Hours time
         var timezone = "GMT+0000", //What timezone
@@ -40,21 +40,21 @@ window.onload = function() {
         var days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
             months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
 
-            count_to = new Date(days[time_now.getDay()-1] + " " + months[time_now.getMonth()] + " " + time_now.getDate() + ", " + time_now.getFullYear() + " " + time_to_end); //The full day and time in a variable
+            count_to = new Date(days[timeNow.getDay()-1] + " " + months[timeNow.getMonth()] + " " + timeNow.getDate() + ", " + timeNow.getFullYear() + " " + time_to_end); //The full day and time in a variable
 
         //Create the countdown span
         appender.parentNode.insertBefore(countdown, appender.nextSibling);
         setTimeout(function(){
-            countdown.id = countdown_id;
-            countdown.className = countdown_classname;
+            countdown.id = countdownId;
+            countdown.className = countdownClassName;
         }, 1000);
 
         var timer = setInterval(function() {
             //Variables need to be calculated each second
-            time_now = new Date();
-            var current_time = new Date(days[time_now.getDay()-1] + " " + months[time_now.getMonth()] + " " + time_now.getDate() + ", " + time_now.getFullYear() + " " + time_now.getHours()+":"+time_now.getMinutes() + ":" +time_now.getSeconds()),
+            timeNow = new Date();
+            var current_time = new Date(days[timeNow.getDay()-1] + " " + months[timeNow.getMonth()] + " " + timeNow.getDate() + ", " + timeNow.getFullYear() + " " + timeNow.getHours()+":"+timeNow.getMinutes() + ":" +timeNow.getSeconds()),
                 time_left = count_to.getTime() - new Date().getTime(),
-                days_left = time_left / ms_per_day,
+                days_left = time_left / msPerDay,
                 m_days_left = Math.floor(days_left),
                 hours_left = (days_left - m_days_left)*24,
                 m_hours_left = Math.floor(hours_left),
@@ -67,11 +67,11 @@ window.onload = function() {
                 var mins_text  = (m_mins_left != 0) ? m_mins_left + "m : " : "the next ";
 
                 text = (current_time >= holiday_start_date && current_time <= holiday_end_date)
-                ? holiday_message + holiday_end_date
-                : normal_message_before + " " + hours_text + mins_text + m_seconds_left + "s" + " " + normal_message_after;
+                ? holidayMessage + holiday_end_date
+                : normalMessageBefore + " " + hours_text + mins_text + m_seconds_left + "s" + " " + normalMessageAfter;
 
             //If it's reached the time, hide it and stop the timer
-            (current_time >= count_to) ? countdown_finish(countdown, finished_message) : update_text(countdown, text);
+            (current_time >= count_to) ? countdown_finish(countdown, finishedMessage) : update_text(countdown, text);
 
         }, 1000);
     };
